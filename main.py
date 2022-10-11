@@ -3,10 +3,18 @@
 #   11/10/2022
 
 import time
+import random
 
-def zuil_bericht(msg, username, station):
+def zuil_bericht(msg, username):
     tijd = time.strftime("%H:%M:%S", time.localtime())
-    datum = time.strftime("%D", time.localtime())
+    datum = time.strftime("%d/%m/%y", time.localtime())
+    locaties = ["Nieuw Amsterdam", "Emmen", "Utrecht"]
+    station = random.choice(locaties)
+    if len(msg) > 140:
+        print("Bericht mag niet langer zijn dan 140 charachters.")
+        exit()
+    if username == "":
+        username = "anoniem"
     f = open("NS-bericht.txt", "a")
     f.write(msg + "\n" + datum + "\n" + tijd + "\n" + username + "\n" + station + "\n")
     f.close()
@@ -15,11 +23,7 @@ def zuil_bericht(msg, username, station):
 def testcode():
     devmsg = input("msg")
     devusername = input("username")
-    devstation = input("station")
-    zuil_bericht(devmsg, devusername, devstation)
+#   devstation = input("station")
+    zuil_bericht(devmsg, devusername,)
 
 testcode()
-
-
-
-
