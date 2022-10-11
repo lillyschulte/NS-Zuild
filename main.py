@@ -5,6 +5,7 @@
 import time
 import random
 
+#   Module om bericht aan te maken en te plaatsen in NS-bericht.txt
 def zuil_bericht(msg, username):
     tijd = time.strftime("%H:%M:%S", time.localtime())
     datum = time.strftime("%d/%m/%y", time.localtime())
@@ -20,6 +21,9 @@ def zuil_bericht(msg, username):
     f.close()
     print("success")
 
+def moderatie():
+    print("Placeholder")
+
 def testcode():
     devmsg = input("msg")
     devusername = input("username")
@@ -27,3 +31,6 @@ def testcode():
     zuil_bericht(devmsg, devusername,)
 
 testcode()
+
+#   Sources:
+#   Prog3 Final
