@@ -47,7 +47,7 @@ def moderatie():
     else:
         print("Incorrect email format")
         exit()
-    f = open('file.txt', 'r')
+    f = open('NS-bericht.txt', 'r')
     lines = f.readlines()
     for line in lines:
         msginfo = line.split(';')
@@ -72,7 +72,7 @@ def moderatie():
             print('error')
 
     f.close()
-    f = open('file.txt', 'w')
+    f = open('NS-bericht.txt', 'w')
     f.close()
 
 root = Tk()
@@ -106,10 +106,11 @@ root.mainloop()
 
 def testcode():
     """"""
-    devmsg = input("msg")
-    devusername = input("username")
+#    devmsg = input("msg")
+#    devusername = input("username")
 #   devstation = input("station")
-    zuil_bericht(devmsg, devusername,)
+#   zuil_bericht(devmsg, devusername,)
+    moderatie()
 
 testcode()
 
