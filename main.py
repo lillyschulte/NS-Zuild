@@ -52,6 +52,16 @@ def moderatie():
     for line in lines:
         msginfo = line.split(';')
         print(msginfo)
+        naam = msginfo[0]
+        datum = msginfo[1]
+        tijd = msginfo[2]
+        bericht = msginfo[3]
+        station = msginfo[4]
+
+        print(bericht)
+        print(naam)
+        print(datum + "" + tijd)
+        print(station)
         beoordeling = input('Gebruik y voor goedkeuren en n voor afkeuren.')
 
         if beoordeling == 'y' or beoordeling == '':
