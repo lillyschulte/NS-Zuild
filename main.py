@@ -37,8 +37,8 @@ def zuil_bericht(msg, username):
 
 def moderatie():
     """
-
-    :return:
+    nog te beschrijven
+    :return: 
     """
     modmail = input("Email van moderator")
     modname = input("Naam van de moderator")
@@ -64,11 +64,11 @@ def moderatie():
         beoordeling = input('Gebruik y voor goedkeuren en n voor afkeuren.')
 
         if beoordeling == 'y' or beoordeling == '':
-            print('goed')
+            print("Goed" + modname + " " + modmail)
         elif beoordeling == 'n':
-            print('fout')
+            print("Fout")
         else:
-            print('error')
+            print("Error")
 
     f.close()
     f = open('NS-bericht.txt', 'w')
@@ -76,6 +76,8 @@ def moderatie():
 
 root = Tk()
 
+root.geometry("400x400")
+bg = PhotoImage(file = "nslogo.png")
 #img = ImageTK.PhotoImage(file = 'scsweb.png')
 
 #def onclick():
@@ -84,14 +86,17 @@ root = Tk()
 #    outcome = f'square of: {base} = {square}'
 #    label['text'] = outcome
 
-label = Label(master = root,
+label1 = Label(master = root,
               text = 'test',
               background = 'yellow',
-              foreground= 'purple',
+              foreground= 'blue',
               font=('Ariel', 16, 'bold italic'),
-              width = 15,
-              height = 8,)
-label.pack()
+              width = 100,
+              height = 80,)
+
+label2 = Label(root, image = bg)
+label2.place(x = 0, y = 0)
+label1.pack()
 
 #button = Button(master=root,text='press', command = onclick)
 
