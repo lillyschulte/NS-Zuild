@@ -1,4 +1,0 @@
-test;02/11/22;09:19:08;test;Utrecht
-test;02/11/22;09:19:15;test;Utrecht
-test;02/11/22;15:13:45;test;Utrecht
-game;02/11/22;15:39:51;game;Emmen

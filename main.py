@@ -51,7 +51,6 @@ def moderatie():
     lines = f.readlines()
     for line in lines:
         msginfo = line.split(';')
-        print(msginfo)
         naam = msginfo[0]
         datum = msginfo[1]
         tijd = msginfo[2]
