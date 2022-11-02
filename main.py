@@ -22,7 +22,10 @@ def zuil_bericht(msg, username):
     if len(username) > 20:
         print("Username mag niet langer zijn dan 20 charachters.")
         exit()
-    if ";" in msg or username:
+    if ";" in msg:
+        print("fout")
+        exit()
+    if ";" in username:
         print("fout")
         exit()
     if username == "":
@@ -33,24 +36,44 @@ def zuil_bericht(msg, username):
     print("success")
 
 def moderatie():
-    f = open("NS-bericht.txt", "r")
-    lines = f.readlines()
-    modmail = input("Email Moderatie")
-    for line in lines:
-        regels = f.readlines()
-        bericht = line.split(';')
-        print(bericht)
+    """
 
+    :return:
+    """
+    modmail = input("Email van moderator")
+    modname = input("Naam van de moderator")
+    if "@" in modmail:
+        print("Success")
+    else:
+        print("Incorrect email format")
+        exit()
+    f = open('file.txt', 'r')
+    lines = f.readlines()
+    for line in lines:
+        msginfo = line.split(';')
+        print(msginfo)
+        beoordeling = input('Gebruik y voor goedkeuren en n voor afkeuren.')
+
+        if beoordeling == 'y' or beoordeling == '':
+            print('goed')
+        elif beoordeling == 'n':
+            print('fout')
+        else:
+            print('error')
+
+    f.close()
+    f = open('file.txt', 'w')
+    f.close()
 
 root = Tk()
 
 #img = ImageTK.PhotoImage(file = 'scsweb.png')
 
-def onclick():
-    base = int(entry.get())
-    square = base ** 2
-    outcome = f'square of: {base} = {square}'
-    label['text'] = outcome
+#def onclick():
+#    base = int(entry.get())
+#    square = base ** 2
+#    outcome = f'square of: {base} = {square}'
+#    label['text'] = outcome
 
 label = Label(master = root,
               text = 'test',
