@@ -35,8 +35,11 @@ def zuil_bericht(msg, username):
 def moderatie():
     f = open("NS-bericht.txt", "r")
     lines = f.readlines()
-    #schermlijst[]
-
+    modmail = input("Email Moderatie")
+    for line in lines:
+        regels = f.readlines()
+        bericht = line.split(';')
+        print(bericht)
 
 
 root = Tk()
@@ -58,12 +61,12 @@ label = Label(master = root,
               height = 8,)
 label.pack()
 
-button = Button(master=root,text='press', command = onclick)
+#button = Button(master=root,text='press', command = onclick)
 
-button.pack(pady=50)
+#button.pack(pady=50)
 
-entry = Entry(master=root)
-entry.pack(pady=10, padx=10)
+#entry = Entry(master=root)
+#entry.pack(pady=10, padx=10)
 
 root.mainloop()
 
