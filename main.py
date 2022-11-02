@@ -74,10 +74,8 @@ def moderatie():
     f = open('NS-bericht.txt', 'w')
     f.close()
 
-root = Tk()
-
-root.geometry("400x400")
-bg = PhotoImage(file = "nslogo.png")
+root = Tk(className="ns-beeldscherm")
+root.configure(bg="yellow")
 #img = ImageTK.PhotoImage(file = 'scsweb.png')
 
 #def onclick():
@@ -91,12 +89,14 @@ label1 = Label(master = root,
               background = 'yellow',
               foreground= 'blue',
               font=('Ariel', 16, 'bold italic'),
-              width = 100,
-              height = 80,)
-
-label2 = Label(root, image = bg)
-label2.place(x = 0, y = 0)
+              width = 10,
+              height = 8,)
 label1.pack()
+canvas = Canvas(root, width=200, height=81, background = "yellow")
+canvas.pack()
+img = PhotoImage(file= 'nslogo.png')
+canvas.create_image(100, 41, image=img)
+root.mainloop()
 
 #button = Button(master=root,text='press', command = onclick)
 
@@ -114,7 +114,7 @@ def testcode():
 #    devusername = input("username")
 #   devstation = input("station")
 #   zuil_bericht(devmsg, devusername,)
-    moderatie()
+#    moderatie()
 
 testcode()
 
