@@ -4,9 +4,14 @@
 
 import time
 import random
-
-#   Module om bericht aan te maken en te plaatsen in NS-bericht.txt
+from tkinter import *
 def zuil_bericht(msg, username):
+    """
+    Module om bericht aan te maken en te plaatsen in NS-bericht.txt
+    :param msg: Bericht
+    :param username: Gerbuikersnaam
+    :return: 
+    """""
     tijd = time.strftime("%H:%M:%S", time.localtime())
     datum = time.strftime("%d/%m/%y", time.localtime())
     locaties = ["Nieuw Amsterdam", "Emmen", "Utrecht"]
@@ -17,14 +22,48 @@ def zuil_bericht(msg, username):
     if username == "":
         username = "anoniem"
     f = open("NS-bericht.txt", "a")
-    f.write(msg + "\n" + datum + "\n" + tijd + "\n" + username + "\n" + station + "\n")
+    f.write(msg + ";" + datum + ";" + tijd + ";" + username + ";" + station + ";")
     f.close()
     print("success")
 
 def moderatie():
-    print("Placeholder")
+    f = open("NS-bericht.txt", "r")
+    lines = f.readlines()
+    schermlijst[]
+
+
+
+root = Tk()
+
+#img = ImageTK.PhotoImage(file = 'scsweb.png')
+
+def onclick():
+    base = int(entry.get())
+    square = base ** 2
+    outcome = f'square of: {base} = {square}'
+    label['text'] = outcome
+
+label = Label(master = root,
+              text = 'test',
+              background = 'yellow',
+              foreground= 'purple',
+              font=('Ariel', 16, 'bold italic'),
+              width = 15,
+              height = 8,)
+label.pack()
+
+button = Button(master=root,text='press', command = onclick)
+
+button.pack(pady=50)
+
+entry = Entry(master=root)
+entry.pack(pady=10, padx=10)
+
+root.mainloop()
+
 
 def testcode():
+    """"""
     devmsg = input("msg")
     devusername = input("username")
 #   devstation = input("station")
@@ -34,3 +73,4 @@ testcode()
 
 #   Sources:
 #   Prog3 Final
+
