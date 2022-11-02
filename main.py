@@ -19,17 +19,23 @@ def zuil_bericht(msg, username):
     if len(msg) > 140:
         print("Bericht mag niet langer zijn dan 140 charachters.")
         exit()
+    if len(username) > 20:
+        print("Username mag niet langer zijn dan 20 charachters.")
+        exit()
+    if ";" in msg or username:
+        print("fout")
+        exit()
     if username == "":
         username = "anoniem"
     f = open("NS-bericht.txt", "a")
-    f.write(msg + ";" + datum + ";" + tijd + ";" + username + ";" + station + ";")
+    f.write(msg + ";" + datum + ";" + tijd + ";" + username + ";" + station + "\n")
     f.close()
     print("success")
 
 def moderatie():
     f = open("NS-bericht.txt", "r")
     lines = f.readlines()
-    schermlijst[]
+    #schermlijst[]
 
 
 
