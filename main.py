@@ -71,8 +71,8 @@ def moderatie():
             print("Error")
 
     f.close()
-    f = open('NS-bericht.txt', 'w')
-    f.close()
+#    f = open('NS-bericht.txt', 'w')
+#    f.close()
 
 root = Tk(className="ns-beeldscherm")
 root.configure(bg="yellow")
@@ -83,9 +83,9 @@ root.configure(bg="yellow")
 #    square = base ** 2
 #    outcome = f'square of: {base} = {square}'
 #    label['text'] = outcome
-
+vartest = "test1"
 label1 = Label(master = root,
-              text = 'test',
+              text = vartest,
               background = 'yellow',
               foreground= 'blue',
               font=('Ariel', 16, 'bold italic'),
@@ -113,7 +113,7 @@ def testcode():
 #    devmsg = input("msg")
 #    devusername = input("username")
 #   devstation = input("station")
-#   zuil_bericht(devmsg, devusername,)
+#    zuil_bericht(devmsg, devusername,)
 #    moderatie()
 
 testcode()
