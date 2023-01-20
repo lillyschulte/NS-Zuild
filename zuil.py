@@ -97,6 +97,3 @@ root.after(2000, display_moderated_messages())
 # Auto update de weather
 root.after(2000, get_weather, location.get())
 root.mainloop()
-
-
-
