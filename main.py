@@ -20,16 +20,8 @@ def zuil_bericht(msg, username):
     station = random.choice(locaties)
     if len(msg) > 140:
         print("Bericht mag niet langer zijn dan 140 charachters.")
-        exit()
     if len(username) > 20:
         print("Username mag niet langer zijn dan 20 charachters.")
-        exit()
-    if ";" in msg:
-        print("fout")
-        exit()
-    if ";" in username:
-        print("fout")
-        exit()
     if username == "":
         username = "anoniem"
     try:

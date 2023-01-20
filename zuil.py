@@ -67,12 +67,12 @@ def get_weather(location):
     temperature = round(weather_data["main"]["temp"] - 273.15, 2)
     icon_id = weather_data["weather"][0]["icon"]
     # Display the temperature and weather icon in the GUI
-    temperature_label = tk.Label(root, text=f"temperatuur in {location}: {temperature}°C")
+    temperature_label = tk.Label(root, text=f"temperatuur in {location}: {temperature}°C", bg="yellow")
     temperature_label.grid(row=10, column=2, sticky="nsew")
     icon_url = f"http://openweathermap.org/img/wn/{icon_id}@2x.png"
     icon_data = requests.get(icon_url).content
     icon_img = tk.PhotoImage(data=icon_data)
-    icon_label = tk.Label(root, image=icon_img)
+    icon_label = tk.Label(root, image=icon_img, bg="yellow")
     icon_label.image = icon_img
     icon_label.grid(row=9, column=2, sticky="nsew")
 
