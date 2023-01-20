@@ -2,6 +2,7 @@ import tkinter as tk
 import psycopg2
 import requests
 
+
 def display_moderated_messages():
     connection = psycopg2.connect(
         host="127.0.0.1",
@@ -10,15 +11,18 @@ def display_moderated_messages():
         password="Admin"
     )
     cursor = connection.cursor()
-    cursor.execute(f"SELECT * FROM New_message WHERE moderated = true ORDER BY moderated_date DESC, moderated_time DESC LIMIT 5")
+    cursor.execute(
+        f"SELECT * FROM New_message WHERE moderated = true ORDER BY moderated_date DESC, moderated_time DESC LIMIT 5")
     moderated_messages = cursor.fetchall()
 
     for message in moderated_messages:
-        print(f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}")
+        message_label = tk.Label(root,
+                                 text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}",
+                                 bg='yellow')
+        message_label.pack()
 
 def get_weather(location):
     # Code to make API call and retrieve weather information for the selected location
-    # Example using OpenWeatherMap API
     api_key = "343670d3dfdfa8265b8024b1498731b3"
     url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}"
     response = requests.get(url)
