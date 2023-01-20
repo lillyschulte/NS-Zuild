@@ -1,17 +1,19 @@
 #   NS Zuil Project main file
 #   Rick Schulte
 #   11/10/2022
-
+from tkinter import *
+import psycopg2
 import time
 import random
-from tkinter import *
+
+
 def zuil_bericht(msg, username):
     """
-    Module om bericht aan te maken en te plaatsen in NS-bericht.txt
+    Module om bericht aan te maken en te plaatsen in een PostgreSQL database
     :param msg: Bericht
     :param username: Gerbuikersnaam
-    :return: 
-    """""
+    :return:
+    """
     tijd = time.strftime("%H:%M:%S", time.localtime())
     datum = time.strftime("%d/%m/%y", time.localtime())
     locaties = ["Nieuw Amsterdam", "Emmen", "Utrecht"]
@@ -30,89 +32,59 @@ def zuil_bericht(msg, username):
         exit()
     if username == "":
         username = "anoniem"
-    f = open("NS-bericht.txt", "a")
-    f.write(msg + ";" + datum + ";" + tijd + ";" + username + ";" + station + "\n")
-    f.close()
-    print("success")
+    try:
+        connection = psycopg2.connect(user="postgres",
+                                      password="Admin",
+                                      host="127.0.0.1",
+                                      database="NS-zuildDB")
+        cursor = connection.cursor()
 
-def moderatie():
-    """
-    nog te beschrijven
-    :return: 
-    """
-    modmail = input("Email van moderator")
-    modname = input("Naam van de moderator")
-    if "@" in modmail:
-        print("Success")
-    else:
-        print("Incorrect email format")
-        exit()
-    f = open('NS-bericht.txt', 'r')
-    lines = f.readlines()
-    for line in lines:
-        msginfo = line.split(';')
-        naam = msginfo[0]
-        datum = msginfo[1]
-        tijd = msginfo[2]
-        bericht = msginfo[3]
-        station = msginfo[4]
-
-        print(bericht)
-        print(naam)
-        print(datum + "" + tijd)
-        print(station)
-        beoordeling = input('Gebruik y voor goedkeuren en n voor afkeuren.')
-
-        if beoordeling == 'y' or beoordeling == '':
-            print("Goed" + modname + " " + modmail)
-        elif beoordeling == 'n':
-            print("Fout")
-        else:
-            print("Error")
-
-    f.close()
-#    f = open('NS-bericht.txt', 'w')
-#    f.close()
+        postgres_insert_query = """ INSERT INTO New_message (message, date, time, username, station) VALUES (%s,%s,%s,%s,%s)"""
+        record_to_insert = (msg, datum, tijd, username, station)
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        print("Record inserted successfully into New_message table")
+    except (Exception, psycopg2.Error) as error:
+        print("Error while connecting to PostgreSQL", error)
+    finally:
+        if (connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
 
 root = Tk(className="ns-beeldscherm")
 root.configure(bg="yellow")
-#img = ImageTK.PhotoImage(file = 'scsweb.png')
 
-#def onclick():
-#    base = int(entry.get())
-#    square = base ** 2
-#    outcome = f'square of: {base} = {square}'
-#    label['text'] = outcome
-vartest = "test1"
-label1 = Label(master = root,
-              text = vartest,
-              background = 'yellow',
-              foreground= 'blue',
-              font=('Ariel', 16, 'bold italic'),
-              width = 10,
-              height = 8,)
-label1.pack()
+# Create label and entry widgets for "msg" and "username"
+label_msg = Label(master=root, text="Bericht:", background="yellow")
+label_msg.pack()
+
+msg_entry = Entry(master=root)
+msg_entry.pack()
+
+label_username = Label(master=root, text="Gebruikersnaam:", background="yellow")
+label_username.pack()
+
+username_entry = Entry(master=root)
+username_entry.pack()
+
+# Create a button to submit the inputs
+submit_button = Button(master=root, text="Verstuur", command=lambda: zuil_bericht(msg_entry.get(), username_entry.get()))
+submit_button.pack()
+
 canvas = Canvas(root, width=200, height=81, background = "yellow")
 canvas.pack()
 img = PhotoImage(file= 'nslogo.png')
 canvas.create_image(100, 41, image=img)
 root.mainloop()
 
-#button = Button(master=root,text='press', command = onclick)
-
-#button.pack(pady=50)
-
-#entry = Entry(master=root)
-#entry.pack(pady=10, padx=10)
-
-root.mainloop()
 
 
 def testcode():
     """"""
 #    devmsg = input("msg")
 #    devusername = input("username")
-#   devstation = input("station")
+#    devstation = input("station")
 #    zuil_bericht(devmsg, devusername,)
 #    moderatie()
 
