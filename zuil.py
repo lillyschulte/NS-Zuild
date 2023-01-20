@@ -16,10 +16,32 @@ def display_moderated_messages():
     moderated_messages = cursor.fetchall()
 
     for message in moderated_messages:
-        message_label = tk.Label(root,
-                                 text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}",
-                                 bg='yellow')
+        message_label = tk.Label(root, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}", bg='yellow')
         message_label.pack()
+        location = message[5]
+        cursor.execute(
+            f"SELECT ov_bike, elevator, toilet, park_and_ride FROM station_service WHERE station_city = '{location}'")
+        location_facilities = cursor.fetchone()
+        if location_facilities[0]:
+            ov_bike_img = tk.PhotoImage(file="img_ovfiets.png")
+            ov_bike_label = tk.Label(root, image=ov_bike_img, bg='yellow')
+            ov_bike_label.image = ov_bike_img
+            ov_bike_label.pack()
+        if location_facilities[1]:
+            elevator_img = tk.PhotoImage(file="img_lift.png")
+            elevator_label = tk.Label(root, image=elevator_img, bg='yellow')
+            elevator_label.image = elevator_img
+            elevator_label.pack()
+        if location_facilities[2]:
+            toilet_img = tk.PhotoImage(file="img_toilet.png")
+            toilet_label = tk.Label(root, image=toilet_img, bg='yellow')
+            toilet_label.image = toilet_img
+            toilet_label.pack()
+        if location_facilities[3]:
+            park_and_ride_img = tk.PhotoImage(file="img_pr.png")
+            park_and_ride_label = tk.Label(root, image=park_and_ride_img, bg='yellow')
+            park_and_ride_label.image = park_and_ride_img
+            park_and_ride_label.pack()
 
 def get_weather(location):
     # Code to make API call and retrieve weather information for the selected location
