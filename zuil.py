@@ -22,8 +22,10 @@ def display_moderated_messages():
         message_frame.grid(row=i+3,column=0,sticky="nsew")
 
         # Create a label for the message text
-        message_label = tk.Label(message_frame, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\n", bg='yellow')
-        message_label.grid(row=i+3,column=0,sticky="w")
+        msbericht_label = tk.Label(message_frame, text=f"{message[1]}\n", bg='yellow', font=("Arial", 20))
+        msbericht_label.grid(row=i+3,column=0,sticky="wn")
+        message_label = tk.Label(message_frame, text=f"Datum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\n", bg='yellow', font=("Arial", 12))
+        message_label.grid(row=i+3,column=0,sticky="ws")
         location = message[5]
         # Haal de faciliteiten van het station op uit de database
         cursor.execute(
@@ -33,7 +35,7 @@ def display_moderated_messages():
             # Toon een afbeelding voor OV-fietsen
             ov_bike_img = tk.PhotoImage(file="img_ovfiets.png")
             ov_bike_label = tk.Label(message_frame, image=ov_bike_img, bg='yellow')
-            #Dit moet ander neemt python garbage collection de image mee :(
+            #Dit moet anders neemt python garbage collection de image mee :(
             ov_bike_label.image = ov_bike_img
             ov_bike_label.grid(row=i+3, column=1+1, sticky="e")
         if location_facilities[1]:
@@ -65,7 +67,7 @@ def get_weather(location):
     temperature = round(weather_data["main"]["temp"] - 273.15, 2)
     icon_id = weather_data["weather"][0]["icon"]
     # Display the temperature and weather icon in the GUI
-    temperature_label = tk.Label(root, text=f"Temperature: {temperature}°C")
+    temperature_label = tk.Label(root, text=f"temperatuur in {location}: {temperature}°C")
     temperature_label.grid(row=10, column=2, sticky="nsew")
     icon_url = f"http://openweathermap.org/img/wn/{icon_id}@2x.png"
     icon_data = requests.get(icon_url).content
@@ -91,4 +93,10 @@ weather_button.grid(row=2, column=0, sticky="n")
 display_button = tk.Button(root, text="Display Moderated Messages", command=display_moderated_messages)
 display_button.grid(row=3, column=0, sticky="n")
 
+root.after(2000, display_moderated_messages())
+# Auto update de weather
+root.after(2000, get_weather, location.get())
 root.mainloop()
+
+
+
