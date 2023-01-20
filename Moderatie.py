@@ -37,7 +37,7 @@ def moderate_messages():
     messages_canvas.create_window((0, 0), window=messages_canvas_frame, anchor="nw")
 
     # Retrieve all messages from the "messages" table
-    cursor.execute("SELECT * FROM messages")
+    cursor.execute("SELECT * FROM New_message")
     messages = cursor.fetchall()
 
     # Display the messages
@@ -57,7 +57,7 @@ def display_messages(messages, messages_canvas_frame, cursor, connection):
         message_frame.pack(fill="x")
 
         # Display the message text
-        message_label = tk.Label(message_frame, text=message[1], wraplength=500)
+        message_label = tk.Label(message_frame, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}", wraplength=500)
         message_label.pack(side="left")
 
         # Create "Approve" and "Delete" buttons for each message
@@ -88,7 +88,6 @@ def delete_message(message_id, cursor, connection, messages_canvas_frame):
     messages = cursor.fetchall()
     # Display the messages after deletion
     display_messages(messages, messages_canvas_frame, cursor, connection)
-
 
 moderate_messages()
 
