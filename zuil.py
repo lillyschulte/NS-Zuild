@@ -56,7 +56,18 @@ def get_weather(location):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}"
     response = requests.get(url)
     weather_data = response.json()
-    print(weather_data)
+    # Extract temperature and weather icon from the JSON response
+    temperature = weather_data["main"]["temp"]
+    icon_id = weather_data["weather"][0]["icon"]
+    # Display the temperature and weather icon in the GUI
+    temperature_label = tk.Label(root, text=f"Temperature: {temperature}")
+    temperature_label.pack()
+    icon_url = f"http://openweathermap.org/img/wn/{icon_id}@2x.png"
+    icon_data = requests.get(icon_url).content
+    icon_img = tk.PhotoImage(data=icon_data)
+    icon_label = tk.Label(root, image=icon_img)
+    icon_label.image = icon_img
+    icon_label.pack()
 
 root = tk.Tk()
 root.configure(bg='yellow')
