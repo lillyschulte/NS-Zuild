@@ -24,9 +24,15 @@ def moderate_messages():
     display_messages(messages, cursor, connection, moderator_name, moderator_email)
 
 def display_messages(messages, cursor, connection, moderator_name, moderator_email):
+    cursor.execute("SELECT * FROM New_message WHERE moderated = false")
+    messages = cursor.fetchall()
+
     # Iterate through each message
     for message in messages:
         print(f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}")
+
+        moderator_name = input("Moderator naam: ")
+        moderator_email = input("Moderator email: ")
 
         action = input("Wat wil je doen? (Goedkeuren/Verwijderen): ")
         if action.lower() == "goedkeuren":
