@@ -1,5 +1,5 @@
 import psycopg2
-import tkinter as tk
+import time
 
 def moderate_messages():
     # Connect to the database
@@ -13,81 +13,39 @@ def moderate_messages():
     # Create a cursor for database operations
     cursor = connection.cursor()
 
-    # Create the main window
-    window = tk.Tk()
-    window.title("Berichten modereren")
-    window.geometry("600x400")
-
-    # Create a scrollable frame to hold the messages
-    messages_frame = tk.Frame(window)
-    messages_frame.pack(fill="both", expand=True)
-
-    messages_canvas = tk.Canvas(messages_frame)
-    messages_canvas.pack(side="left", fill="both", expand=True)
-
-    messages_scrollbar = tk.Scrollbar(messages_frame, orient="vertical", command=messages_canvas.yview)
-    messages_scrollbar.pack(side="right", fill="y")
-
-    messages_canvas.configure(yscrollcommand=messages_scrollbar.set)
-
-    # Create a frame to hold the messages inside the canvas
-    messages_canvas_frame = tk.Frame(messages_canvas)
-    messages_canvas_frame.pack()
-
-    messages_canvas.create_window((0, 0), window=messages_canvas_frame, anchor="nw")
-
     # Retrieve all messages from the "messages" table
     cursor.execute("SELECT * FROM New_message")
     messages = cursor.fetchall()
 
     # Display the messages
-    display_messages(messages, messages_canvas_frame, cursor, connection)
+    display_messages(messages, cursor, connection)
 
-    # Start the main loop
-    window.mainloop()
-
-def display_messages(messages, messages_canvas_frame, cursor, connection):
-    # Clear any existing message widgets
-    for widget in messages_canvas_frame.winfo_children():
-        widget.destroy()
-
+def display_messages(messages, cursor, connection):
     # Iterate through each message
     for message in messages:
-        message_frame = tk.Frame(messages_canvas_frame)
-        message_frame.pack(fill="x")
+        print(f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}")
 
-        # Display the message text
-        message_label = tk.Label(message_frame, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}", wraplength=500)
-        message_label.pack(side="left")
+        moderator_name = input("Moderator naam: ")
+        moderator_email = input("Moderator email: ")
 
-        # Create "Approve" and "Delete" buttons for each message
-        approve_button = tk.Button(message_frame, text="Goedkeuren", command=lambda message_id=message[0]: approve_message(message_id, cursor, connection, messages_canvas_frame))
-        approve_button.pack(side="right")
+        action = input("Wat wil je doen? (Goedkeuren/Verwijderen): ")
+        if action.lower() == "goedkeuren":
+            approve_message(message[0], moderator_name, moderator_email, cursor, connection)
+        elif action.lower() == "verwijderen":
+            delete_message(message[0], cursor, connection)
+        else:
+            print("Ongeldige invoer")
 
-        delete_button = tk.Button(message_frame, text="Verwijderen", command=lambda message_id=message[0]: delete_message(message_id, cursor, connection, messages_canvas_frame))
-        delete_button.pack(side="right")
-
-def approve_message(message_id, cursor, connection, messages_canvas_frame):
-    # Mark the message as "approved"
-    cursor.execute("UPDATE messages SET approved = true WHERE id = %s", (message_id,))
+def approve_message(message_id, moderator_name, moderator_email, cursor, connection):
+    moderated_date = time.strftime("%d/%m/%y", time.localtime())
+    moderated_time = time.strftime("%H:%M:%S", time.localtime())
+    cursor.execute(f"UPDATE New_message SET moderated = true, moderator_name = '{moderator_name}', moderator_email = '{moderator_email}', moderated_date = '{moderated_date}', moderated_time = '{moderated_time}' WHERE id = {message_id}")
     connection.commit()
-    print("Bericht goedgekeurd:", message_id)
-    #Retrieve all messages from the "messages" table after approval
-    cursor.execute("SELECT * FROM messages")
-    messages = cursor.fetchall()
-    # Display the messages after approval
-    display_messages(messages, messages_canvas_frame, cursor, connection)
+    print("Bericht goedgekeurd")
 
-def delete_message(message_id, cursor, connection, messages_canvas_frame):
-    # Delete the message
-    cursor.execute("DELETE FROM messages WHERE id = %s", (message_id,))
+def delete_message(message_id, cursor, connection):
+    cursor.execute(f"DELETE FROM New_message WHERE id = {message_id}")
     connection.commit()
-    print("Bericht verwijderd:", message_id)
-    #Retrieve all messages from the "messages" table after deletion
-    cursor.execute("SELECT * FROM messages")
-    messages = cursor.fetchall()
-    # Display the messages after deletion
-    display_messages(messages, messages_canvas_frame, cursor, connection)
+    print("Bericht verwijderd")
 
 moderate_messages()
-
