@@ -16,7 +16,7 @@ def zuil_bericht(msg, username):
     """
     tijd = time.strftime("%H:%M:%S", time.localtime())
     datum = time.strftime("%d/%m/%y", time.localtime())
-    locaties = ["Nieuw Amsterdam", "Emmen", "Utrecht"]
+    locaties = ["Amsterdam", "Groningen", "Utrecht"]
     station = random.choice(locaties)
     if len(msg) > 140:
         print("Bericht mag niet langer zijn dan 140 charachters.")
