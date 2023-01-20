@@ -30,14 +30,10 @@ def display_messages(messages, cursor, connection, moderator_name, moderator_ema
     # Iterate through each message
     for message in messages:
         print(f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}")
-
-        moderator_name = input("Moderator naam: ")
-        moderator_email = input("Moderator email: ")
-
-        action = input("Wat wil je doen? (Goedkeuren/Verwijderen): ")
-        if action.lower() == "goedkeuren":
+        action = input("Wat wil je doen? (Goedkeuren[1]/Verwijderen[0]): ")
+        if action.lower() == "goedkeuren" or action.lower() == "1":
             approve_message(message[0], moderator_name, moderator_email, cursor, connection)
-        elif action.lower() == "verwijderen":
+        elif action.lower() == "verwijderen" or action.lower() == "0":
             delete_message(message[0], cursor, connection)
         else:
             print("Ongeldige invoer")
