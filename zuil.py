@@ -2,8 +2,8 @@ import tkinter as tk
 import psycopg2
 import requests
 
-
 def display_moderated_messages():
+    # Maak verbinding met de database
     connection = psycopg2.connect(
         host="127.0.0.1",
         database="NS-zuildDB",
@@ -11,33 +11,40 @@ def display_moderated_messages():
         password="Admin"
     )
     cursor = connection.cursor()
+    # Haal de moderated berichten op uit de database
     cursor.execute(
         f"SELECT * FROM New_message WHERE moderated = true ORDER BY moderated_date DESC, moderated_time DESC LIMIT 5")
     moderated_messages = cursor.fetchall()
 
     for message in moderated_messages:
+        # Maak een label aan voor elk bericht
         message_label = tk.Label(root, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}", bg='yellow')
         message_label.pack()
         location = message[5]
+        # Haal de faciliteiten van het station op uit de database
         cursor.execute(
             f"SELECT ov_bike, elevator, toilet, park_and_ride FROM station_service WHERE station_city = '{location}'")
         location_facilities = cursor.fetchone()
         if location_facilities[0]:
+            # Toon een afbeelding voor OV-fietsen
             ov_bike_img = tk.PhotoImage(file="img_ovfiets.png")
             ov_bike_label = tk.Label(root, image=ov_bike_img, bg='yellow')
             ov_bike_label.image = ov_bike_img
             ov_bike_label.pack()
         if location_facilities[1]:
+            # Toon een afbeelding voor liften
             elevator_img = tk.PhotoImage(file="img_lift.png")
             elevator_label = tk.Label(root, image=elevator_img, bg='yellow')
             elevator_label.image = elevator_img
             elevator_label.pack()
         if location_facilities[2]:
+            # Toon een afbeelding voor toiletten
             toilet_img = tk.PhotoImage(file="img_toilet.png")
             toilet_label = tk.Label(root, image=toilet_img, bg='yellow')
             toilet_label.image = toilet_img
             toilet_label.pack()
         if location_facilities[3]:
+            # Toon een afbeelding voor P+R
             park_and_ride_img = tk.PhotoImage(file="img_pr.png")
             park_and_ride_label = tk.Label(root, image=park_and_ride_img, bg='yellow')
             park_and_ride_label.image = park_and_ride_img
