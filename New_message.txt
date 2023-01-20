@@ -1,0 +1,24 @@
+-- Table: public.new_message
+
+-- DROP TABLE IF EXISTS public.new_message;
+
+CREATE TABLE IF NOT EXISTS public.new_message
+(
+    id integer NOT NULL DEFAULT nextval('new_message_id_seq'::regclass),
+    message character varying(140) COLLATE pg_catalog."default",
+    date date,
+    "time" time without time zone,
+    username character varying(20) COLLATE pg_catalog."default",
+    station character varying(50) COLLATE pg_catalog."default",
+    moderator_name character varying(255) COLLATE pg_catalog."default",
+    moderator_email character varying(255) COLLATE pg_catalog."default",
+    moderated boolean DEFAULT false,
+    moderated_date date,
+    moderated_time time without time zone,
+    CONSTRAINT new_message_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.new_message
+    OWNER to postgres;
