@@ -61,10 +61,10 @@ def display_messages(messages, messages_canvas_frame, cursor, connection):
         message_label.pack(side="left")
 
         # Create "Approve" and "Delete" buttons for each message
-        approve_button = tk.Button(message_frame, text="Goedkeuren", command=lambda message_id=message[0]: approve_message(message_id, cursor, connection))
+        approve_button = tk.Button(message_frame, text="Goedkeuren", command=lambda message_id=message[0]: approve_message(message_id, cursor, connection, messages_canvas_frame))
         approve_button.pack(side="right")
 
-        delete_button = tk.Button(message_frame, text="Verwijderen", command=lambda message_id=message[0]: delete_message(message_id, cursor, connection))
+        delete_button = tk.Button(message_frame, text="Verwijderen", command=lambda message_id=message[0]: delete_message(message_id, cursor, connection, messages_canvas_frame))
         delete_button.pack(side="right")
 
 def approve_message(message_id, cursor, connection, messages_canvas_frame):
