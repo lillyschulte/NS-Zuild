@@ -15,11 +15,15 @@ def display_moderated_messages():
     cursor.execute(
         f"SELECT * FROM New_message WHERE moderated = true ORDER BY moderated_date DESC, moderated_time DESC LIMIT 5")
     moderated_messages = cursor.fetchall()
+    root.columnconfigure(0, weight=1)
+    for i, message in enumerate(moderated_messages):
+        # Create a frame for each message and its associated icons
+        message_frame = tk.Frame(root, bg='yellow')
+        message_frame.grid(row=i+3,column=0,sticky="nsew")
 
-    for message in moderated_messages:
-        # Maak een label aan voor elk bericht
-        message_label = tk.Label(root, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\nModerator: {message[6]}\nModerator email: {message[7]}\nModerated_date: {message[8]}\nModerated_time: {message[9]}", bg='yellow')
-        message_label.pack()
+        # Create a label for the message text
+        message_label = tk.Label(message_frame, text=f"Bericht: {message[1]}\nDatum: {message[2]}\nTijd: {message[3]}\nGebruiker: {message[4]}\nStation: {message[5]}\n", bg='yellow')
+        message_label.grid(row=i+3,column=0,sticky="w")
         location = message[5]
         # Haal de faciliteiten van het station op uit de database
         cursor.execute(
@@ -28,27 +32,28 @@ def display_moderated_messages():
         if location_facilities[0]:
             # Toon een afbeelding voor OV-fietsen
             ov_bike_img = tk.PhotoImage(file="img_ovfiets.png")
-            ov_bike_label = tk.Label(root, image=ov_bike_img, bg='yellow')
+            ov_bike_label = tk.Label(message_frame, image=ov_bike_img, bg='yellow')
+            #Dit moet ander neemt python garbage collection de image mee :(
             ov_bike_label.image = ov_bike_img
-            ov_bike_label.pack()
+            ov_bike_label.grid(row=i+3, column=1+1, sticky="e")
         if location_facilities[1]:
             # Toon een afbeelding voor liften
             elevator_img = tk.PhotoImage(file="img_lift.png")
-            elevator_label = tk.Label(root, image=elevator_img, bg='yellow')
+            elevator_label = tk.Label(message_frame, image=elevator_img, bg='yellow')
             elevator_label.image = elevator_img
-            elevator_label.pack()
+            elevator_label.grid(row=i+3,column=2+1,sticky="e")
         if location_facilities[2]:
             # Toon een afbeelding voor toiletten
             toilet_img = tk.PhotoImage(file="img_toilet.png")
-            toilet_label = tk.Label(root, image=toilet_img, bg='yellow')
+            toilet_label = tk.Label(message_frame, image=toilet_img, bg='yellow')
             toilet_label.image = toilet_img
-            toilet_label.pack()
+            toilet_label.grid(row=i+3, column=3+1, sticky="e")
         if location_facilities[3]:
             # Toon een afbeelding voor P+R
             park_and_ride_img = tk.PhotoImage(file="img_pr.png")
-            park_and_ride_label = tk.Label(root, image=park_and_ride_img, bg='yellow')
+            park_and_ride_label = tk.Label(message_frame, image=park_and_ride_img, bg='yellow')
             park_and_ride_label.image = park_and_ride_img
-            park_and_ride_label.pack()
+            park_and_ride_label.grid(row=i+3, column=4+1, sticky="e")
 
 def get_weather(location):
     # Code to make API call and retrieve weather information for the selected location
@@ -61,29 +66,29 @@ def get_weather(location):
     icon_id = weather_data["weather"][0]["icon"]
     # Display the temperature and weather icon in the GUI
     temperature_label = tk.Label(root, text=f"Temperature: {temperature}°C")
-    temperature_label.pack()
+    temperature_label.grid(row=10, column=2, sticky="nsew")
     icon_url = f"http://openweathermap.org/img/wn/{icon_id}@2x.png"
     icon_data = requests.get(icon_url).content
     icon_img = tk.PhotoImage(data=icon_data)
     icon_label = tk.Label(root, image=icon_img)
     icon_label.image = icon_img
-    icon_label.pack()
+    icon_label.grid(row=9, column=2, sticky="nsew")
 
 root = tk.Tk()
 root.configure(bg='yellow')
 root.title("Moderated Messages")
 
 location_label = tk.Label(root, text="Select a location:", bg='yellow')
-location_label.pack()
+location_label.grid(row=0, column=0, sticky="n")
 
 location = tk.StringVar(value="Utrecht")
 location_dropdown = tk.OptionMenu(root, location, "Utrecht", "Amsterdam", "Groningen")
-location_dropdown.pack()
+location_dropdown.grid(row=1, column=0, sticky="n")
 
 weather_button = tk.Button(root, text="Check Weather", command=lambda: get_weather(location.get()))
-weather_button.pack()
+weather_button.grid(row=2, column=0, sticky="n")
 
 display_button = tk.Button(root, text="Display Moderated Messages", command=display_moderated_messages)
-display_button.pack()
+display_button.grid(row=3, column=0, sticky="n")
 
 root.mainloop()
